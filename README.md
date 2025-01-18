@@ -65,11 +65,49 @@ Finalmente, nos fijamos en que Godot tiene integrado el uso de control de versio
 
 Finalmente pulsamos `Crear y editar`, y ya tenemos creado el proyecto.
 
+Una vez creado el proyecto, vamos a abrir la carpeta donde se ha creado y, además de los ficheros automáticos que genera godot, vamos a crear una pequeña estructura de carpetas para organizar los ficheros necesarios.
+
+La estructura de carpetas es algo personal, y puedes realizarla como prefieras. Para este tutorial vamos a crear las siguientes carpetas:
+
+- escenas: En esta carpeta vamos a guardar todos los ficheros de escenas y sus scripts.
+- graficos: En esta carpeta se guardan todos los gráficos y sprites del juego.
+- musica: En esta carpeta se guardarán la música y efectos de sonido.
+
 ## La interfaz
 
+Al crear el proyecto, se nos abre la siguiente ventana:
 
+![](./img/interfaz1.png)
+
+Vamos a hablar, en general, de las partes que vemos en esta interfaz:
+
+En la parte superior izquierda, vemos unos desplegables `Escena`, `Proyecto`, `Depurar`, `Editor` y `Ayuda`. En el desplegable de `Escena` podemos crear escenas, en los demás desplegables tenemos la configuración del proyecto, depuración, el editor y la pestaña de ayuda.
+
+En la parte superior derecha vemos unos iconos que son los que usaremos para ejecutar el juego, pausarlo, detenerlo, exportarlo, ejecutar la escena actual, ejecutar una escena específica o cambiar el renderizado del juego.
+
+En el centro se van a mostrar los elementos gráficos (personajes, niveles, etc.) tanto en 2D, 3D y el código. Se cambia la visión seleccionando qué visor se quiere en cada momento en la parte de arriba. Además arriba en las pestañas se mostrarán las escenas abiertas.
+
+En el panel lateral izquierdo distinguimos dos partes:
+
+En el lateral izquierdo arriba se muestra la estructura de nodos de dicha escena y el menú de importación de imágenes, para cambiar las propiedades de importación de diferentes elementos.
+
+En el lateral izquierdo abajo se muestra la estructura de ficheros del proyecto.
+
+En el panel lateral derecho se van a mostrar las propiedades de los nodos para editarlo, los listeners y el historial.
+
+La parte inferior muestra la consola de salida y depurador, así como los menús de animaciones, sonidos y shaders cuando sea pertinente.
 
 ## Escenas y nodos
+
+En Godot trabajamos con escenas y nodos. Debemos tener en cuenta que es programación orientada a objetos a la hora de comprender estos conceptos.
+
+Los nodos son las unidades básicas de Godot, cada nodo tiene una funcionalidad específica, como contener sprites, reproducir música, realizar animaciones o colisionadores.
+
+Las escenas son conjuntos de nodos jerárquicamente organizados en un árbol que pueden reutilizarse e instanciarse en otras escenas. Una escena puede ser un personaje, un obstáculo, la pantalla de menús inicial del juego o el nivel.
+
+En este tutorial el juego a desarrollar va a realizarse en 2D, pero (prácticamente) todo nodo 2D tiene su equivalente en 3D.
+
+### Escena de jugador
 
 
 
