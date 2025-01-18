@@ -109,7 +109,27 @@ En este tutorial el juego a desarrollar va a realizarse en 2D, pero (prácticame
 
 ### Escena de jugador
 
+Vamos a ir creando, poco a poco, un pequeño juego para aterrizar todos los conceptos y uso del motor que estamos viendo. El videojuego que vamos a desarrollar va a ser un PseudoMario, pues va a ser una versión ligeramente simplificada del mismo.
 
+Vamos a comenzar el proyecto creando la escena del jugador, que llamamos `personaje.tscn` y almacenamos en la carpeta `escenas`. Para ello, en el menú lateral izquierda vamos a comenzar añadiendo el nodo raíz de la escena.
+
+Dado que es un personaje y por tanto tendrá colisiones y se mueve, pulsamos en `Otro Nodo`, seleccionamos `CharacterBody2D` y le damos a `Crear`:
+
+![](./img/escena_perso1.png)
+
+Una vez añadido, vemos que el nodo aparece en el panel izquierdo y se muestra una exclamación de advertencia, ya que el nodo `CharacterBody2D` está preparado para comprobar las colisiones, y por tanto necesida que se le indique la forma del colisionador.
+
+![](./img/escena_perso2.png)
+
+Seleccionamos el nodo que acabamos de crear y pulsamos el `+` de la parte superior del panel para crear un nodo hijo. Seleccionamos un `CollisionShape2D` para indicar la forma del colisionador.
+
+Este nuevo nodo vuelve a tener un signo de exclamación, pues aunque tenemos un nodo para almacenar la forma de la colisión, no le hemos indicado cuál es. Seleccionamos el nodo y en el panel derecho se muestran las propiedades de dicho nodo. Buscamos la propiedad `Shape` y en dicho desplegable indicaremos qué forma tiene el colisionador. Normalmente se usan rectángulos (`Nuevo RectangleShape2D`) o cápsulas (`Nuevo CapsuleShape2D`).
+
+![](./img/escena_perso3.png)
+
+Una vez seleccionada la forma ya podemos ajustarla al tamaño que queramos usando el editor gráfico en la parte central de la pantalla, y tendremos un colisionador funcionando.
+
+> Nota: En general, se suelen tener colisiones cuando trabajamos con un jugador, por eso se ha usado `CharacterBody2D`, pero si no queremos que colisione y nos basta con que detecte que algo ha entrado en su área o región, por ejemplo para proyectiles o zonas en las que debe ocurrir un evento, se usa el nodo,  `Area2D`. 
 
 ## Scripts
 
