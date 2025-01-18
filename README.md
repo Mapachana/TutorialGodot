@@ -113,14 +113,50 @@ En este tutorial el juego a desarrollar va a realizarse en 2D, pero (prácticame
 
 ## Scripts
 
+Los scripts son ficheros de código que suelen ir asociados a escenas, aunque no siempre.
+
+Para programar en godot podemos usar dos lenguajes: c# y gdscript, que es el lenguaje propio de godot y es muy similar a python.
+
+No debemos olvidar que godot nos ofrece métodos ya preparados para por ejemplo colisionar, moverse o reproducir animaciones.
+
+En este tutorial vamos a programar empleando gdscript.
+
+### Script de personaje
+
+
 
 ## Animaciones
+
+Crear una animación consiste básicamente en indicarle al editor qué propiedades debe cambiar y en qué momento.
+
+Las animaciones más usuales son por ejemplo las de andar o saltar, pero también pueden ser explosiones u otros detalles.
+
+Para realizar animaciones, usaremos los nodos pertinentes para ellas.
+
+### Animación de personaje
+
 
 
 ## Musiquita
 
+Para añadir música al juego, ya sea música de fondo o efectos de sonidos que se escuchan al ocurrir determinados eventos, usaremos los nodos de música.
+
+### Música de fondo para el nivel
+
+
 
 ## Menús e Interfaces
+
+Vamos a distinguir dos apartados: por un lado menús, como los que encontramos en las pantallas de comienzo y fin del juego, y por otro la interfaz del usuario, como son contadores de monedas, de vida o de tiempo.
+
+En ambos casos usaremos etiquetas, pero en los menús usaremos botones mientras que en la interfaz con el usuario usaremos sprites u otros elementos para mostrar iconos.
+
+### Contador de monedas
+
+
+
+### Menú de inicio
+
 
 
 ## Publicando tu obra maestra
