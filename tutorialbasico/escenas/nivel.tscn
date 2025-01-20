@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://dpp7fex7c2dt1"]
+[gd_scene load_steps=6 format=3 uid="uid://dpp7fex7c2dt1"]
 
+[ext_resource type="Script" path="res://escenas/nivel.gd" id="1_jvxsi"]
 [ext_resource type="PackedScene" uid="uid://cmc2gpp7ndi45" path="res://escenas/personaje.tscn" id="1_srt47"]
+[ext_resource type="AudioStream" uid="uid://buaqfv0gcmmxp" path="res://musica/GGJ2024.ogg" id="2_auplh"]
+[ext_resource type="PackedScene" uid="uid://bpupsiy7q8h3n" path="res://escenas/monedas.tscn" id="4_nxghv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2tn6v"]
 size = Vector2(381, 183)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_jvxsi")
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 position = Vector2(9, 139)
@@ -17,3 +21,21 @@ shape = SubResource("RectangleShape2D_2tn6v")
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_srt47")]
 position = Vector2(44, 106)
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+zoom = Vector2(3, 3)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_auplh")
+autoplay = true
+playback_type = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "MONEDAS: 0"
+
+[node name="Area2D" parent="." instance=ExtResource("4_nxghv")]
+position = Vector2(389, 64)

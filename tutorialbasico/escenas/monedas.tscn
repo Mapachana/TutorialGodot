@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpupsiy7q8h3n"]
+
+[ext_resource type="Script" path="res://escenas/monedas.gd" id="1_cajua"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5361g"]
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_cajua")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5361g")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

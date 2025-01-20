@@ -234,7 +234,7 @@ Para añadir música al juego, ya sea música de fondo o efectos de sonidos que 
 
 ### Música de fondo para el nivel
 
-
+Autoplay y stream
 
 ## Menús e Interfaces
 
@@ -248,6 +248,10 @@ En ambos casos usaremos etiquetas, pero en los menús usaremos botones mientras 
 
 ### Menú de inicio
 
+
+
+
+mENCIÓN TILEMAPLAYER PARA TILEMAP Y TILESET Y PARALLAX
 
 
 ## Publicando tu obra maestra
