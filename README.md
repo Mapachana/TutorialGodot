@@ -129,7 +129,35 @@ Este nuevo nodo vuelve a tener un signo de exclamación, pues aunque tenemos un 
 
 Una vez seleccionada la forma ya podemos ajustarla al tamaño que queramos usando el editor gráfico en la parte central de la pantalla, y tendremos un colisionador funcionando.
 
+El tamaño del colisionador deberá ser el tamaño del sprite o imagen de nuestro personaje.
+
+Vamos a añadir el al nodo raíz un nuevo nodo hijo `Sprite2D` y en la barra de la derecha, pulsamos en la propiedad `texture` para indicar cuál debe usar pulsando en `Cargar` y seleccionando de nuestra carpeta de gráficos `elfo.png`.
+
+![](./img/escena_perso4.png)
+
+![](./img/escena_perso5.png)
+
+Dado que nuestro personaje tiene una spritesheet, debemos indicarle que solo coja uno de los elfos, para ello iremos a la propiedad `hframes` y `vframes` de `Animation`, que indica cuántos frames verticales y horizontales tiene el spritesheet cargado. En este caso hay 23 elfos en línea, así basta ajustar los valores como se ve:
+
+![](./img/escena_perso6.png)
+
+Sin embargo nuestro pixelart se ve borroso, para corregir esto iremos a `Proyecto` -> `Configuración del proyecto` -> `Renderizado` -> `Texturas` y en lugar de `Linear` seleccionamos `Nearest.`
+
+![](./img/escena_perso7.png)
+
+Aunque todavía no vayamos a hacer las animaciones, vamos a dejar añadido un nodo `AnimationPlayer` como hijo de `Sprite2D`.
+
+Finalmente ajustamos nuestro colisionador para que quede centrado y alineado con el sprite con el ratón.
+
+![](./img/escena_perso8.png)
+
 > Nota: En general, se suelen tener colisiones cuando trabajamos con un jugador, por eso se ha usado `CharacterBody2D`, pero si no queremos que colisione y nos basta con que detecte que algo ha entrado en su área o región, por ejemplo para proyectiles o zonas en las que debe ocurrir un evento, se usa el nodo,  `Area2D`. 
+
+### Escena de monedas
+
+Esta escena va a tener una estructura muy similar a la del jugador, pero el nodo raíz será un `Area2D`, ya que no necesita colisiones ni desplazarse.
+
+Así, tendremos un `Area2D` que tiene por hijos un `CollisionShape2D` y un `Sprite2D`, teniendo este último un hijo `AnimationPlayer`. Cargamos además los gráficos de la moneda de manera análoga a como lo hicimos el elfo, teniendo la moneda 6 frames.
 
 ## Scripts
 
@@ -143,6 +171,49 @@ En este tutorial vamos a programar empleando gdscript.
 
 ### Script de personaje
 
+Vamos a continuar desarrollando nuestro personaje añadiendo controles para poder moverlo. Para ello vamos a añadir un script a su escena pulsando sobre el pergamino con el + que se ve en el panel izquierdo:
+
+![](./img/script_perso1.png)
+
+Le damos a crear y nos aparece un fichero con código ya hecho como el siguiente:
+
+```python
+extends CharacterBody2D 
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis("ui_left", "ui_right")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+```
+
+En este código ya tenemos muchos aspectos básicos, por ejemplo la primera línea nos indica cuál es el nodo raíz de la escena.
+
+Después tenemos el equivalente a atributos de la clase, que además son constantes, `SPEED` y `JUMP_VELOCITY`, velocidades fijas que usaremos para el movimiento.
+
+A continuación encontramos la función `_physics_process(delta: float)` que es una función que tiene en cuenta físicas y se ejecuta cada frame. Recibe como argumento `delta` que es el tiempo entre dos frames. Esta función se ejecuta continuamente.
+
+Sin embargo, nosotros no vamos a usar físicas realistas, así que vamos a quitar esa función y en su lugar usar `process(delta)`.
+
+Godot tiene ya incorporadas diversos métodos para los nodos `CharacterBody2D`, como por ejemplo `is_on_floor()`, que comprueba si el nodo está en el suelo o `move_and_slide()` para desplazar al personaje.
 
 
 ## Animaciones
