@@ -27,6 +27,7 @@
 	- [Menús e Interfaces](#menús-e-interfaces)
 		- [Contador de monedas](#contador-de-monedas)
 		- [Menú de inicio](#menú-de-inicio)
+	- [Tilemap](#tilemap)
 	- [Publicando tu obra maestra](#publicando-tu-obra-maestra)
 
 
@@ -581,6 +582,10 @@ Para terminar vamos a indicar que esta escena de menú es la principal, para ell
 ![](./img/menu4.png)
 
 Ya podemos pulsar el play y comprobar que nos abre el menú directamente.
+
+## Tilemap
+
+Un tilemap consiste en una imagen que te metes por el culo.
 
 ## Publicando tu obra maestra
 
