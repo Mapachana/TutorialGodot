@@ -35,11 +35,7 @@ func _process(delta: float) -> void:
 
 	move_and_slide() # moverse y colisionar
 	
-	
-	
-	
-	
-	
+
 # funcion para cambiar de animacion
 func cambiar_animacion(nombre_anim):
 	if nombre_anim != anim_actual:

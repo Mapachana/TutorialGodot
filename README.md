@@ -420,11 +420,85 @@ Crear una animación consiste básicamente en indicarle al editor qué propiedad
 
 Las animaciones más usuales son por ejemplo las de andar o saltar, pero también pueden ser explosiones u otros detalles.
 
-Para realizar animaciones, usaremos los nodos pertinentes para ellas.
+Para realizar animaciones, usaremos los nodos `AnimationPlayer`.
 
 ### Animación de personaje
 
-% TODO hacer
+Para hacer animaciones vamos a abrir el editor de animaciones de la parte inferior. Vamos a crear una animación del elfo andando.
+
+![](./img/animacion1.png)
+
+Pulsaremos en `Animación` y añadir nueva pista.
+
+![](./img/animacion2.png)
+
+En la parte superior izquierda podemos reproducir o parar las animaciones. En la parte superior seleccionaremos la animación a editar. A la derecha se muestra la duración total de la animación y si se reproduce en bucle.
+
+En la parte inferior, en `Ajuste` se especifica el tiempo cada el que cambia la propiedad a editar.
+
+Vamos a seleccionar el nodo `Sprite2D` y en el inspector de nodos, en la propiedad `frame` pulsamos la llave dos veces. Esto crea la pista de animación de dicha propiedad y le da el primer valor el especificado en los atributos del nodo.
+
+![](./img/animacion3.png)
+
+![](./img/animacion5.png)
+
+Seguimos pulsando reiteradas veces en la llave de dicha propiedad para que vaya indicando los frames a usar, cada tiempo ajuste, del frame. Ajustamos el tiempo total de la animación y hacemos que se reproduzca en bucle.
+
+![](./img/animacion4.png)
+
+También crearemos una animación `idle` donde el muñeco no se mueve, y por tanto es solamente un frame para cuando está quieto.
+
+Ahora vamos a editar el script de personaje, añadiendo un atributo con la animación que se esta reproduciendo en ese momento, una función para cambiar de animación para impedir que se empiece a reproducir múltiples veces al tener un input continuo y voltear los sprites cuando el personaje se mueve a la izquierda.
+
+Para darle la vuelta a los sprites usamos la propiedad `flip_h` que tienen los sprites por defecto.
+
+```python
+extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+var anim_actual = "idle" # animacion actual: parado
+
+
+func _process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor(): # si no estoy en el suelo
+		velocity += get_gravity() * delta # ir cayendo con la gravedad
+
+
+	# Handle jump.
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor(): # si estoy en el suelo y pulso saltar
+		velocity.y = JUMP_VELOCITY # saltar
+
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis("ui_left", "ui_right") # recoger el input a izquierda y derecha
+	if direction: # Si hay input
+		velocity.x = direction * SPEED # movereme en la dirección a la velocidad
+		cambiar_animacion("andar")
+		if velocity.x < 0:
+			$Sprite2D.flip_h = true # si la velocidad es negativa voy a la izquierda y por tanto volteo el sprite
+		else:
+			$Sprite2D.flip_h = false
+	else:
+		velocity.x = 0 # si no hay input me paro
+		cambiar_animacion("idle")
+
+
+	move_and_slide() # moverse y colisionar
+	
+
+# funcion para cambiar de animacion
+func cambiar_animacion(nombre_anim):
+	if nombre_anim != anim_actual:
+		$Sprite2D/AnimationPlayer.play(nombre_anim)
+		anim_actual = nombre_anim
+```
+
+Ya podemos ir al nivel y comprobar que ahora al moverse el elfo reproduce la animación de andar, y al no pulsar nada se para.
 
 ## Musiquita
 
