@@ -585,7 +585,35 @@ Ya podemos pulsar el play y comprobar que nos abre el menú directamente.
 
 ## Tilemap
 
-Un tilemap consiste en una imagen que te metes por el culo.
+Un tilemap consiste en una imagen con los bloques que se van a combinar para hacer los terrenos o fondos del juego.
+
+En nuestro nivel añadimos un nodo `TileMapLayer`, esto nos crea en el panel inferior una opción para tilemap. Lo abrimos:
+
+![](./img/tilemap1.png)
+
+En el inspector le damos a nuevo tileset y ahora abrimos el panel inferior de tileset.
+
+![](./img/tilemap2.png)
+
+Pulsamos en + y le damos a `Atlas`. Seleccionamos la imagen y dejamos que lo divida.
+
+![](./img/tilemap3.png)
+
+Ahora volvemos a tilemap, seleccionamos un tile y podemos pintar pulsando en la pantalla.
+
+![](./img/tilemap4.png)
+
+Ahora vamos a añadir colisionadores a nuestro tilemap.
+
+Para eso vamos al inspector del tilemap y pulsamos en `tilemaplayer`->`tileset` y en sus propiedades pulsamos la capa de físicas.
+
+![](./img/tilemap5.png)
+
+Ahora volvemos al tileset en el panel inferior y en `pintar`, en `física` y en `propiedades de pintura`->`capa de física 1` y pulsamos en el tile que queremos que tenga el colisionador.
+
+![](./img/tilemap6.png)
+
+Ahora al pintar dicho tile ya tiene el colisionador.
 
 ## Publicando tu obra maestra
 
