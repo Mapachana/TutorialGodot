@@ -28,12 +28,12 @@
 		- [Contador de monedas](#contador-de-monedas)
 		- [Menú de inicio](#menú-de-inicio)
 	- [Tilemap](#tilemap)
-	- [Publicando tu obra maestra](#publicando-tu-obra-maestra)
+
 
 
 ## Información del tutorial y repositorio
 
-En este repositorio se encuentra un tutorial de Godot básico, donde se van a explicar los aspectos y conceptos básicos del motor, así como cómo realizar un juego.
+En este repositorio se encuentra un tutorial de Godot básico, donde se van a explicar los aspectos y co nceptos básicos del motor, así como cómo realizar un juego.
 
 Para este tutorial se ha usado la versión 4.3 de Godot.
 
@@ -614,8 +614,3 @@ Ahora volvemos al tileset en el panel inferior y en `pintar`, en `física` y en 
 ![](./img/tilemap6.png)
 
 Ahora al pintar dicho tile ya tiene el colisionador.
-
-## Publicando tu obra maestra
-
-mENCIÓN TILEMAPLAYER PARA TILEMAP Y TILESET Y PARALLAX
-
