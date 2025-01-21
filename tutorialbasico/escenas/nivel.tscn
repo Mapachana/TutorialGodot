@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpp7fex7c2dt1"]
+[gd_scene load_steps=7 format=3 uid="uid://dpp7fex7c2dt1"]
 
 [ext_resource type="Script" path="res://escenas/nivel.gd" id="1_jvxsi"]
 [ext_resource type="PackedScene" uid="uid://cmc2gpp7ndi45" path="res://escenas/personaje.tscn" id="1_srt47"]
+[ext_resource type="Texture2D" uid="uid://3ggcemrlw6nr" path="res://graficos/rectangulomorado.png" id="2_7qaip"]
 [ext_resource type="AudioStream" uid="uid://buaqfv0gcmmxp" path="res://musica/GGJ2024.ogg" id="2_auplh"]
 [ext_resource type="PackedScene" uid="uid://bpupsiy7q8h3n" path="res://escenas/monedas.tscn" id="4_nxghv"]
 
@@ -18,6 +19,11 @@ gravity_scale = 0.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 position = Vector2(180.5, 81.5)
 shape = SubResource("RectangleShape2D_2tn6v")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(182, 82.5)
+scale = Vector2(0.626667, 0.301667)
+texture = ExtResource("2_7qaip")
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_srt47")]
 position = Vector2(44, 106)

@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqymxux0ep2na"]
+
+[ext_resource type="Script" path="res://escenas/menu.gd" id="1_l8wl7"]
+[ext_resource type="Texture2D" uid="uid://3ggcemrlw6nr" path="res://graficos/rectangulomorado.png" id="2_eso25"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l8wl7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(606.5, 334.5)
+scale = Vector2(2.34167, 1.365)
+texture = ExtResource("2_eso25")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 428.0
+offset_top = 129.0
+offset_right = 516.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 60
+text = "SuperJuego"
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(300, 30)
+layout_mode = 0
+offset_left = 462.0
+offset_top = 304.0
+offset_right = 508.0
+offset_bottom = 335.0
+theme_override_font_sizes/font_size = 40
+text = "Start"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

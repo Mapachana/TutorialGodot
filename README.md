@@ -187,11 +187,29 @@ Esta escena va a tener una estructura muy similar a la del jugador, pero el nodo
 
 Así, tendremos un `Area2D` que tiene por hijos un `CollisionShape2D` y un `Sprite2D`, teniendo este último un hijo `AnimationPlayer`. Cargamos además los gráficos de la moneda de manera análoga a como lo hicimos el elfo, teniendo la moneda 6 frames.
 
-% TODO Terminar
+![](./img/moneda2.png)
 
 ### Escena de nivel
 
-% TODO rellenar
+La escena del nivel será en la que combinaremos todos los elementos y escenas para que el jugador la juegue.
+
+Esta escena tendrá por nodo raíz un `Node2D`, y para jugar en ella vamos a comenzar creando un suelo.
+
+Dado que el suelo debe colisionar con el personaje para que este no se caiga pero no va a moverse, será un `RigidBody2D`. A este nodo le añadiremos su correspondiente `CollisionShape2D` y un `Sprite2D` para verlo.
+
+Después instanciaremos nuestra escena de personaje, para ello pulsaremos en el clip en lugar de en el + del panel izquierdo, y seleccionaremos nuestra escena de personaje como hija del nodo raíz.
+
+Análogamente instanciamos nuestra moneda y colocamos los elementos con el ratón.
+
+Para que la cámara siga al personaje y podamos jugar con el zoom, añadimos una cámara como hija del personaje (para que lo siga) y en sus propiedades ponemos la escala a 3 para que se vea bien.
+
+Añadimos otro nodo `AudioStreamPlayer` para la música de fondo.
+
+Finalmente para la interfaz del contador de calabazas añadimos un nodo `CanvasLayer` para que esta interfaz no se mueva de la pantalla, y como hija suya una etiqueta `Label` donde se mostrará el número de monedas.
+
+El resultado debe ser similar a esto:
+
+![](./img/nivel_todo.png)
 
 ## Scripts
 
@@ -506,9 +524,13 @@ Para añadir música al juego, ya sea música de fondo o efectos de sonidos que 
 
 ### Música de fondo para el nivel
 
-Autoplay y stream
+Para que se reproduzca música en el nivel vamos a usar un nodo `AudioStreamPlayer`.
 
-% TODO hacer
+Seleccionamos el nodo y en el inspector le damos a `Cargar` y seleccionamos el archivo de música. Para que se reproduzca automáticamente al empezar la escena marcamos la propiedad `Autoplay` y ponemos el tipo de música a `stream`.
+
+![](./img/musica.png)
+
+![](./img/musica2.png)
 
 ## Menús e Interfaces
 
@@ -518,14 +540,49 @@ En ambos casos usaremos etiquetas, pero en los menús usaremos botones mientras 
 
 ### Contador de monedas
 
-% TODO hacer
-
+El contador de monedas ya se ha realizado durante el scripting mediante el código en el controlador y la moneda, añadiendo los nodos `CanvasLayer` y `Label` a la escena para modificarlo.
+ 
 ### Menú de inicio
 
-% TODO hacer
+Vamos a realizar un menú de inicio lo más básico posible. Comenzamos creando una nueva escena con nodo raíz `Control`. A esta escena vamos a añadir un `Label` con el nombre del juego y un botón `Button`. Además añadimos un `Sprite2D` para ponerle un fondo.
 
+Añadimos texto a la etiqueta y el botón en sus propiedades `text` correspondientes en el panel derecho y la imagen de fondo para el Sprite y colocamos todo con el ratón.
+
+Para cambiar el tamaño del botón iremos a `Layout`, y cambiamos también el tamaño de fuente en la etiqueta y el botón
+
+![](./img/menu1.png)
+
+![](./img/menu2.png)
+
+Ahora vamos a añadir la funcionalidad del botón: creamos un script para la escena, seleccionamos el botón y le añadimos un listener para el vento `pressed`, que es cuando se pulsa el botón. Esta función llamará a nuestro controlador indicando que cambie la escena.
+
+![](./img/menu3.png)
+
+```python
+extends Control
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+# funcion que se ejecuta al pulsar el boton
+func _on_button_pressed() -> void:
+	Controlador.goto_scene("res://escenas/nivel.tscn") # cambiar a escena de nivel
+```
+
+Para terminar vamos a indicar que esta escena de menú es la principal, para ello vamos a `Proyecto`->`Configuración del Proyecto`->`Ejecutar` e indicamos en la escena principal nuestro menú.
+
+![](./img/menu4.png)
+
+Ya podemos pulsar el play y comprobar que nos abre el menú directamente.
+
+## Publicando tu obra maestra
 
 mENCIÓN TILEMAPLAYER PARA TILEMAP Y TILESET Y PARALLAX
 
-
-## Publicando tu obra maestra
