@@ -2,6 +2,34 @@
 
 > Hecho por Mapachana
 
+## Índice
+
+- [Tutorial de Godot](#tutorial-de-godot)
+	- [Índice](#índice)
+	- [Información del tutorial y repositorio](#información-del-tutorial-y-repositorio)
+	- [¿Qué es Godot? ¿Por qué iba yo a usar Godot?](#qué-es-godot-por-qué-iba-yo-a-usar-godot)
+	- [Instalando Godot](#instalando-godot)
+	- [Creando un proyecto](#creando-un-proyecto)
+	- [La interfaz](#la-interfaz)
+	- [Escenas y nodos](#escenas-y-nodos)
+		- [Escena de jugador](#escena-de-jugador)
+		- [Escena de monedas](#escena-de-monedas)
+		- [Escena de nivel](#escena-de-nivel)
+	- [Scripts](#scripts)
+		- [Script de personaje](#script-de-personaje)
+		- [Script global](#script-global)
+		- [Script de nivel](#script-de-nivel)
+		- [Script de monedas](#script-de-monedas)
+	- [Animaciones](#animaciones)
+		- [Animación de personaje](#animación-de-personaje)
+	- [Musiquita](#musiquita)
+		- [Música de fondo para el nivel](#música-de-fondo-para-el-nivel)
+	- [Menús e Interfaces](#menús-e-interfaces)
+		- [Contador de monedas](#contador-de-monedas)
+		- [Menú de inicio](#menú-de-inicio)
+	- [Publicando tu obra maestra](#publicando-tu-obra-maestra)
+
+
 ## Información del tutorial y repositorio
 
 En este repositorio se encuentra un tutorial de Godot básico, donde se van a explicar los aspectos y conceptos básicos del motor, así como cómo realizar un juego.
@@ -159,6 +187,12 @@ Esta escena va a tener una estructura muy similar a la del jugador, pero el nodo
 
 Así, tendremos un `Area2D` que tiene por hijos un `CollisionShape2D` y un `Sprite2D`, teniendo este último un hijo `AnimationPlayer`. Cargamos además los gráficos de la moneda de manera análoga a como lo hicimos el elfo, teniendo la moneda 6 frames.
 
+% TODO Terminar
+
+### Escena de nivel
+
+% TODO rellenar
+
 ## Scripts
 
 Los scripts son ficheros de código que suelen ir asociados a escenas, aunque no siempre.
@@ -213,8 +247,172 @@ A continuación encontramos la función `_physics_process(delta: float)` que es 
 
 Sin embargo, nosotros no vamos a usar físicas realistas, así que vamos a quitar esa función y en su lugar usar `process(delta)`.
 
-Godot tiene ya incorporadas diversos métodos para los nodos `CharacterBody2D`, como por ejemplo `is_on_floor()`, que comprueba si el nodo está en el suelo o `move_and_slide()` para desplazar al personaje.
+Godot tiene ya incorporadas diversos métodos para los nodos `CharacterBody2D`, como por ejemplo `is_on_floor()`, que comprueba si el nodo está en el suelo o `move_and_slide()` para desplazar al personaje comprobando las colisiones.
 
+El código del personaje quedaría como sigue:
+
+```python
+extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+
+func _process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor(): # si no estoy en el suelo
+		velocity += get_gravity() * delta # ir cayendo con la gravedad
+
+
+	# Handle jump.
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor(): # si estoy en el suelo y pulso saltar
+		velocity.y = JUMP_VELOCITY # saltar
+
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis("ui_left", "ui_right") # recoger el input a izquierda y derecha
+	if direction: # Si hay input
+		velocity.x = direction * SPEED # movereme en la dirección a la velocidad
+		if velocity.x < 0:
+			$Sprite2D.flip_h = true # si la velocidad es negativa voy a la izquierda y por tanto volteo el sprite
+		else:
+			$Sprite2D.flip_h = false
+	else:
+		velocity.x = 0 # si no hay input me paro
+
+
+	move_and_slide() # moverse y colisionar
+```
+
+Con este código nuestro personaje ya podrá moverse a izquierda y derecha y saltar. Para cambiar la velocidad solo hará falta modificar las constantes ya vistas.
+
+Una vez tenemos el script podremos ir a la escena del nivel y ejecutarla para comprobar que el personaje se mueve correctamente.
+
+### Script global
+
+Vamos a añadir un script global, esto es, un script que no está asociado a ninguna escena, se carga al inicio y sirve como controlador. Para ello vamos a ir a `Proyecto`->`Configuración de Proyecto`->`Globales`->`Autoload`. Ahí indicamos el nombre del script, en este caso `controlador` y lo añadimos.
+
+![](./img/inter2.png)
+
+![](./img/inter3.png)
+
+Este script contendrá el contador de monedas recogidas, la escena actual del juego para permitirnos cambiar entre escenas y la ruta a la etiqueta donde se mostrará en el nivel las monedas recogidas.
+
+La función `_ready` se ejecuta al crear la escena, una sola vez. En este caso obtenemos el árbol del proyecto y guardamos la escena actual.
+
+Añadimos dos funciones para cambiar entre escenas `goto_scene` y `_deferred_goto_scene`.
+
+Finalemente tenemos una función que actualice el contador de monedas y lo muestre en la pantalla del nivel cambiando la etiqueta correspondiente.
+
+```python
+extends Node
+
+var num_monedas = 0 # contador de monedas
+
+var ruta_etiqueta_nivel = null
+
+var current_scene = null
+
+func _ready():
+	var root = get_tree().root
+	current_scene = root.get_child(root.get_child_count() - 1)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+	
+	
+func goto_scene(path):
+	# This function will usually be called from a signal callback,
+	# or some other function in the current scene.
+	# Deleting the current scene at this point is
+	# a bad idea, because it may still be executing code.
+	# This will result in a crash or unexpected behavior.
+
+	# The solution is to defer the load to a later time, when
+	# we can be sure that no code from the current scene is running:
+
+	call_deferred("_deferred_goto_scene", path)
+
+
+func _deferred_goto_scene(path):
+	# It is now safe to remove the current scene.
+	current_scene.free()
+
+	# Load the new scene.
+	var s = ResourceLoader.load(path)
+
+	# Instance the new scene.
+	current_scene = s.instantiate()
+
+	# Add it to the active scene, as child of root.
+	get_tree().root.add_child(current_scene)
+
+	# Optionally, to make it compatible with the SceneTree.change_scene_to_file() API.
+	get_tree().current_scene = current_scene
+
+# actualiza el contador de monedas
+func actualizar_contador_monedas():
+	num_monedas += 1
+	ruta_etiqueta_nivel.text = "MONEDAS: "+ str(num_monedas)
+	pass
+
+```
+
+### Script de nivel
+
+El nivel solamente constará de una función `_ready` que se ejeute al inicio, con el objetivo de, una vez creado el nivel, indicarle la ruta de la etiqueta de la interfaz donde se mostrará la cuenta de monedas total al controlador:
+
+```python
+extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	Controlador.ruta_etiqueta_nivel = $CanvasLayer/Label # guardo la ruta de la etiqueta para actualizarla en el controlador
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+```
+
+### Script de monedas
+
+Finalmente vamos a añadirle un script a las monedas para que cuando las coja el personaje se actualice el contador de monedas y estas desaparezcan.
+
+En la escena de moneda seleccionamos el `Area2D` y en el panel derecho, en `Nodos` pulsamos doble click sobre el evento `on_body_entered`.
+
+![](./img/moneda.png)
+
+Esto nos generará un listener o evento, que hará que cuando un cuerpo, en este caso el perosnaje, entre en el area delimitada por la forma de colisión de la moneda se ejecute el código de este método.
+
+Así, este script quedaría como sigue:
+
+```python
+extends Area2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+# Cuando entra un cuerpo en el area
+func _on_body_entered(body: Node2D) -> void:
+	Controlador.actualizar_contador_monedas() # actualizo contador de monedas
+	queue_free() # elimino la moneda
+	pass # Replace with function body.
+```
 
 ## Animaciones
 
@@ -226,7 +424,7 @@ Para realizar animaciones, usaremos los nodos pertinentes para ellas.
 
 ### Animación de personaje
 
-
+% TODO hacer
 
 ## Musiquita
 
@@ -236,6 +434,8 @@ Para añadir música al juego, ya sea música de fondo o efectos de sonidos que 
 
 Autoplay y stream
 
+% TODO hacer
+
 ## Menús e Interfaces
 
 Vamos a distinguir dos apartados: por un lado menús, como los que encontramos en las pantallas de comienzo y fin del juego, y por otro la interfaz del usuario, como son contadores de monedas, de vida o de tiempo.
@@ -244,11 +444,11 @@ En ambos casos usaremos etiquetas, pero en los menús usaremos botones mientras 
 
 ### Contador de monedas
 
-
+% TODO hacer
 
 ### Menú de inicio
 
-
+% TODO hacer
 
 
 mENCIÓN TILEMAPLAYER PARA TILEMAP Y TILESET Y PARALLAX

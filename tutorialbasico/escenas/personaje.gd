@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 		else:
 			$Sprite2D.flip_h = false
 	else:
-		velocity.x = 0
+		velocity.x = 0 # si no hay input me paro
 		cambiar_animacion("idle")
 
 
